@@ -1,8 +1,8 @@
 (function() {
   function SongPlayer(Fixtures) {
     /**
-     * @function
-     * @type
+     * @desc SongPlayer object to be returned by function to make properties and methods accessible
+     * @type {Object}
      */
     var SongPlayer = {};
 
@@ -25,8 +25,7 @@
      */
     var setSong = function(song) {
       if (currentBuzzObject) {
-        currentBuzzObject.stop();
-        SongPlayer.currentSong.playing = null;
+        stopSong();
       }
 
       currentBuzzObject = new buzz.sound(song.audioUrl, {
@@ -39,7 +38,8 @@
 
     /**
      * @function playSong
-     * @desc
+     * @desc Plays currently playing song
+     * @param {Object} song
      */
     var playSong = function(song) {
       currentBuzzObject.play();
@@ -47,9 +47,18 @@
     };
 
     /**
-     * @function
-     * @desc
-     * @param
+     * @function stopSong
+     * @desc Stops currently playing song
+     */
+    var stopSong = function() {
+      currentBuzzObject.stop();
+      SongPlayer.currentSong.playing = null;
+    };
+
+    /**
+     * @function getSongIndex
+     * @desc returns the index of song
+     * @param {Object} song
      */
     var getSongIndex = function(song) {
       return currentAlbum.songs.indexOf(song);
@@ -62,9 +71,9 @@
     SongPlayer.currentSong = null;
 
     /**
-     * @function
-     * @desc
-     * @param
+     * @function SongPlayer.play
+     * @desc plays current or new song
+     * @param {Object} song
      */
     SongPlayer.play = function(song) {
       song = song || SongPlayer.currentSong;
@@ -79,9 +88,9 @@
     };
 
     /**
-     * @function
-     * @desc
-     * @param
+     * @function SongPlayer.pause
+     * @desc pauses current songs
+     * @param {Object} song
      */
     SongPlayer.pause = function(song) {
       song = song || SongPlayer.currentSong;
@@ -90,17 +99,32 @@
     };
 
     /**
-     * @function
-     * @desc
-     * @param
+     * @function SongPlayer.previous
+     * @desc Either goes to the previous song, or stops the song if its the first track
      */
     SongPlayer.previous = function() {
       var currentSongIndex = getSongIndex(SongPlayer.currentSong);
       currentSongIndex--;
 
       if (currentSongIndex < 0) {
-        currentBuzzObject.stop();
-        SongPlayer.currentSong.playing = null;
+        stopSong();
+      } else {
+        var song = currentAlbum.songs[currentSongIndex];
+        setSong(song);
+        playSong(song);
+      }
+    };
+
+    /**
+     * @function SongPlayer.next
+     * @desc Either goes to the next song, or stops the song if its the last track
+     */
+    SongPlayer.next = function() {
+      var currentSongIndex = getSongIndex(SongPlayer.currentSong);
+      currentSongIndex++;
+
+      if (currentSongIndex >= currentAlbum.songs.length) {
+        stopSong();
       } else {
         var song = currentAlbum.songs[currentSongIndex];
         setSong(song);
