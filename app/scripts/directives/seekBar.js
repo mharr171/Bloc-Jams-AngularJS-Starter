@@ -1,4 +1,9 @@
 (function() {
+  /**
+   * @function seekBar
+   * @desc returns seekBar template
+   * @param $document
+   */
   function seekBar($document) {
     var calculatePercent = function(seekBar, event) {
       var offsetX = event.pageX - seekBar.offset().left;
@@ -32,6 +37,12 @@
             width: percentString()
           };
         };
+
+        scope.thumbStyle = function() {
+          return {
+            left: percentString()
+          };
+        }
 
         scope.onClickSeekBar = function(event) {
           var percent = calculatePercent(seekBar, event);
