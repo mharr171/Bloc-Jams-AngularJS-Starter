@@ -39,6 +39,12 @@
         });
       });
 
+      currentBuzzObject.bind('ended', function() {
+        if (currentBuzzObject.isEnded()) {
+          SongPlayer.next();
+        }
+      });
+
       SongPlayer.currentSong = song;
     };
 
@@ -166,12 +172,12 @@
      * @desc Set volume
      * @param {Number} volume
      */
-     SongPlayer.setVolume = function(volume) {
-       if (currentBuzzObject){
-         currentBuzzObject.setVolume(volume);
-         SongPlayer.volume = volume;
-       }
-     };
+    SongPlayer.setVolume = function(volume) {
+      if (currentBuzzObject) {
+        currentBuzzObject.setVolume(volume);
+        SongPlayer.volume = volume;
+      }
+    };
 
     return SongPlayer;
   }
