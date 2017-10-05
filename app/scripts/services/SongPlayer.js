@@ -19,6 +19,12 @@
     var currentBuzzObject = null;
 
     /**
+     * @desc saved volume, used when muted
+     * @type {Integer}
+     */
+    var savedVolume = null;
+
+    /**
      * @function setSong
      * @desc Stops currently playing song and loads new audio file as currentBuzzObject
      * @param {Object} song
@@ -162,10 +168,16 @@
     };
 
     /**
-     * @desc Current volume
+     * @desc Current volume - also sets default
      * @type {Number}
      */
-    SongPlayer.volume = 80;
+    SongPlayer.volume = 50;
+
+    /**
+     * @desc tracks whether the track is muted
+     * @type {Boolean}
+     */
+    SongPlayer.muted = false;
 
     /**
      * @function setVolume
@@ -174,11 +186,38 @@
      */
     SongPlayer.setVolume = function(volume) {
       if (currentBuzzObject) {
+        if (currentBuzzObject.isMuted()) {
+          currentBuzzObject.unmute();
+          SongPlayer.muted = false;
+        }
         currentBuzzObject.setVolume(volume);
         SongPlayer.volume = volume;
+
+        if (SongPlayer.volume == 0) {
+          SongPlayer.muted = true;
+        } else {
+          SongPlayer.muted = false;
+        }
       }
+
     };
 
+    /**
+     * @function SongPlayer.mute
+     * @desc mutes the volume
+     */
+    SongPlayer.mute = function() {
+      if (currentBuzzObject.isMuted()) {
+        currentBuzzObject.unmute();
+        SongPlayer.volume = savedVolume;
+
+      } else {
+        savedVolume = currentBuzzObject.getVolume();
+        currentBuzzObject.mute();
+        SongPlayer.volume = 0;
+        SongPlayer.muted = true;
+      }
+    };
     return SongPlayer;
   }
 
