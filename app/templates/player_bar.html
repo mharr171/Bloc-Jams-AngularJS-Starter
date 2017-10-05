@@ -25,12 +25,12 @@
       <h3 class="artist-name" ng-show="playerBar.songPlayer.currentSong">{{ playerBar.albumData.artist }}</h3>
       <div class="seek-control">
         <seek-bar value="{{ playerBar.songPlayer.currentTime }}" max="{{ playerBar.songPlayer.currentSong.duration }}" on-change="playerBar.songPlayer.setCurrentTime(value)"></seek-bar>
-        <div class="current-time"">{{ playerBar.songPlayer.currentTime | timecode }}</div>
+        <div class="current-time">{{ playerBar.songPlayer.currentTime | timecode }}</div>
         <div class="total-time">{{ playerBar.songPlayer.currentSong.duration | timecode }}</div>
       </div>
     </div>
     <div class="control-group volume">
-      <span class="icon ion-android-volume-mute" ng-show="playerBar.songPlayer.muted" ng-click="playerBar.songPlayer.mute()"></span>
+      <span class="icon ion-volume-mute" ng-show="playerBar.songPlayer.muted" ng-click="playerBar.songPlayer.mute()"></span>
       <span class="icon ion-volume-high" ng-show="!playerBar.songPlayer.muted" ng-click="playerBar.songPlayer.mute()"></span>
       <seek-bar value="{{ playerBar.songPlayer.volume }}" max="{{ 100 }}" on-change="playerBar.songPlayer.setVolume(value)"></seek-bar>
     </div>

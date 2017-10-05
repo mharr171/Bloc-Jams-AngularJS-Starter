@@ -210,7 +210,7 @@
       if (currentBuzzObject.isMuted()) {
         currentBuzzObject.unmute();
         SongPlayer.volume = savedVolume;
-
+        SongPlayer.muted = false;
       } else {
         savedVolume = currentBuzzObject.getVolume();
         currentBuzzObject.mute();
